@@ -34,6 +34,13 @@ public class CarregarXml {
         }
         if (texto == "") {
             return (letra);
+            
+            
+            
+            
+            
+            
+            
         } else {
             retorno = texto + "," + letra;
             return (retorno);
