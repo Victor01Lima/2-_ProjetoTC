@@ -6,8 +6,11 @@
 package pkg2.projeto_tc;
 
 import java.io.File;
+import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -126,7 +129,8 @@ public class inicial extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void ConverterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConverterActionPerformed
-        // TODO add your handling code here:
+        CarregarXml carregar =  new CarregarXml();
+        gerarGrammar(carregar.readXml(jTextField1.getText()));
     }//GEN-LAST:event_ConverterActionPerformed
 
     /**
@@ -170,4 +174,35 @@ public class inicial extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
+private void gerarGrammar(Automato automato){
+    CarregarXml carregar =  new CarregarXml();
+    List<String> variaveis = new ArrayList<>();
+    List<String> transicoes = new ArrayList<>();
+    int i=0;
+    for (Estados A :  automato.getEstado()){
+        if(A.getId()==0){
+            variaveis.add("S");
+        }else{
+            variaveis.add(String.format("%c",'A'+i-1));
+        }
+        i++;
+    }
+    for(int j=0;j<variaveis.size();j++){
+        System.out.println(variaveis.get(j));      
+                        int contador = 0;
+                        while(contador<2){                          
+//                        System.out.println(automato.getTransition().get(contador).getRead());
+//                        System.out.println(automato.getTransition().get(contador).getTo()); 
+                        transicoes.add(variaveis.get(j)+" => "+automato.getTransition().get(contador).getRead()
+                        +variaveis.get(automato.getTransition().get(contador).getTo()));
+                        
+                        contador++;
+              }
+                        contador =0;                                      
 }
+    for(i=0;i<transicoes.size();i++){
+                    System.out.println(transicoes.get(i));
+                }
+}
+}
+
