@@ -187,22 +187,20 @@ private void gerarGrammar(Automato automato){
         }
         i++;
     }
-    for(int j=0;j<variaveis.size();j++){
-        System.out.println(variaveis.get(j));      
-                        int contador = 0;
-                        while(contador<2){                          
-//                        System.out.println(automato.getTransition().get(contador).getRead());
-//                        System.out.println(automato.getTransition().get(contador).getTo()); 
-                        transicoes.add(variaveis.get(j)+" => "+automato.getTransition().get(contador).getRead()
-                        +variaveis.get(automato.getTransition().get(contador).getTo()));
-                        
-                        contador++;
-              }
-                        contador =0;                                      
+    
+    for(int j=0;j<automato.getTransition().size();j++){             
+        transicoes.add(variaveis.get(automato.getTransition().get(j).getFrom())+" => "+automato.getTransition().get(j).getRead()
+             +variaveis.get(automato.getTransition().get(j).getTo()));                                            
 }
-    for(i=0;i<transicoes.size();i++){
-                    System.out.println(transicoes.get(i));
-                }
+                for(int j=0;j<automato.getEstadofinal().size();j++){
+                 transicoes.add(variaveis.get(automato.getEstadofinal().get(j).getId())+"=>  <  ");
+             }
+for(int x=0;x<transicoes.size();x++){
+    System.out.println(transicoes.get(x));
 }
+
+    
+}
+
 }
 
