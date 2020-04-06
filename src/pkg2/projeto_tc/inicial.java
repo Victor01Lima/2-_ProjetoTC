@@ -38,12 +38,14 @@ public class inicial extends javax.swing.JFrame {
         EscolherArquivo = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
         Converter = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("To grammar");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
+        EscolherArquivo.setFont(new java.awt.Font("Bahnschrift", 1, 14)); // NOI18N
         EscolherArquivo.setText("Escolher Arquivo");
         EscolherArquivo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -51,14 +53,15 @@ public class inicial extends javax.swing.JFrame {
             }
         });
 
-        jTextField1.setText("jTextField1");
+        jTextField1.setEnabled(false);
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
             }
         });
 
-        Converter.setText("Converter");
+        Converter.setFont(new java.awt.Font("Bahnschrift", 1, 14)); // NOI18N
+        Converter.setText("Converter e Salvar");
         Converter.setEnabled(false);
         Converter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -66,27 +69,36 @@ public class inicial extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Bahnschrift", 1, 14)); // NOI18N
+        jLabel1.setText("AFD para Gramática Regular");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(96, Short.MAX_VALUE)
+                .addContainerGap(92, Short.MAX_VALUE)
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(75, 75, 75)
+                .addGap(50, 50, 50)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(Converter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(EscolherArquivo, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE))
+                    .addComponent(EscolherArquivo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(51, 51, 51))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(159, 159, 159)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(63, 63, 63)
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(41, 41, 41)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(EscolherArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 106, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
                 .addComponent(Converter, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(79, 79, 79))
         );
@@ -171,6 +183,7 @@ public class inicial extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Converter;
     private javax.swing.JButton EscolherArquivo;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
@@ -189,16 +202,31 @@ private void gerarGrammar(Automato automato){
     }
     
     for(int j=0;j<automato.getTransition().size();j++){             
-        transicoes.add(variaveis.get(automato.getTransition().get(j).getFrom())+" => "+automato.getTransition().get(j).getRead()
+        transicoes.add(variaveis.get(automato.getTransition().get(j).getFrom())+""+automato.getTransition().get(j).getRead()
              +variaveis.get(automato.getTransition().get(j).getTo()));                                            
 }
                 for(int j=0;j<automato.getEstadofinal().size();j++){
-                 transicoes.add(variaveis.get(automato.getEstadofinal().get(j).getId())+"=>  <  ");
+                 transicoes.add(variaveis.get(automato.getEstadofinal().get(j).getId())+" <");
              }
+       Grammar gramatica = new Grammar();
+       List<String> left = new ArrayList<>();
+    List<String> right = new ArrayList<>();
+ for(i=0;i<transicoes.size();i++){
+   left.add(transicoes.get(i).substring(0,transicoes.get(i).length()-2));
+   right.add(transicoes.get(i).substring(transicoes.get(i).length()-2,transicoes.get(i).length()));
+ }               
 for(int x=0;x<transicoes.size();x++){
-    System.out.println(transicoes.get(x));
+    System.out.println(left.get(x));
+    System.out.println(right.get(x));
+   // System.out.println(transicoes.get(x));
 }
 
+        gramatica.setLeft(left);
+        gramatica.setRight(right);
+        GerarXML salvar = new GerarXML();
+        if(salvar.gerar(gramatica, true)){
+            JOptionPane.showMessageDialog(null,"Arquivo Salvo!");
+        }
     
 }
 

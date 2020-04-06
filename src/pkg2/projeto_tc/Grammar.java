@@ -12,20 +12,26 @@ import java.util.List;
  * @author Victor
  */
 public class Grammar {
-    List<String> variaveis;
-    List<String> transicoes;
+    private List<String> left;
+    private List<String> right;
 
-    public List<String> getTransicoes() {
-        return transicoes;
+    public List<String> getLeft() {
+        return left;
     }
 
-    public void setTransicoes(List<String> transicoes) {
-        this.transicoes = transicoes;
+    public List<String> getRight() {
+        return right;
     }
 
-    public void setVariaveis(List<String> variaveis) {
-        this.variaveis = variaveis;
+    public void setLeft(List<String> left) {
+        this.left = left;
     }
+
+    public void setRight(List<String> right) {
+        this.right = right;
+    }
+
+    
     
     
     
